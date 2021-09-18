@@ -1,0 +1,60 @@
+<div class="container">
+<h1 class="my-4">Template Driven Form and Validation</h1>
+<form #userForm="ngForm" >
+<div class="form-group">
+<label for="nom">Nom:</label>
+<input type="text" id="nom" #nom= "ngModel" required ="required" name="nom" [class.is-invalid]="nom.invalid && nom.touched" class="form-control" [(ngModel)]="userFormModel.nom">
+<small class="text-danger" *ngIf="nom.invalid && nom.touched">Le nom est requis</small>
+</div>
+<div class="form-group">
+<label for="prenom">Prénom:</label>
+<input type="text" id="prenom"  #prenom= "ngModel" name="prenom" required ="required"  [class.is-invalid]="prenom.invalid && prenom.touched" class="form-control"  [(ngModel)]="userFormModel.prenom">
+<small class="text-danger" *ngIf="prenom.invalid && prenom.touched">Le prénom est requis</small>
+</div>
+
+<div class="form-group">
+<label for="email">Email:</label>
+<input type="email" id="email"  #email= "ngModel" name="email" required ="required"  [class.is-invalid]="email.invalid && email.touched" class="form-control"  [(ngModel)]="userFormModel.email">
+<small class="text-danger" *ngIf="email.invalid && email.touched">L'email est requis</small>
+</div>
+
+<div class="form-group">
+<label for="fone">Téléphone:</label>
+<input type="text" id="fone" name="fone" #fone="ngModel" [class.is-invalid]="fone.invalid" pattern="^\d{10}$" class="form-control"  [(ngModel)]="userFormModel.fone">
+<small class="text-danger" *ngIf="fone.invalid && fone.touched">Le numéro de téléphone doit contenir 10 chiffres</small>
+</div>
+<div class="form-group">
+<select (blur)="validerFormation(formation.value)" (change)="validerFormation(formation.value)" class="form-select my-3" name="formation" [class.is-invalid]="hasError && formation.touched" #formation="ngModel" [(ngModel)]="userFormModel.formations">
+  <option value="default">Choisir sa formation</option>
+  <option *ngFor="let formation of formations">{{formation}}</option>
+
+</select>
+<small class="text-danger" *ngIf="hasError && formation.touched">Merci de choisir une formation</small>
+</div>
+
+<button type="submit" (click)="onSubmit()" [disabled]="userForm.invalid || hasError" class="btn btn-success my-4" data-bs-toggle="modal" data-bs-target="#exampleModal">Envoyer</button>
+
+</form>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Données du formulaire</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+           <div><strong>Nom: </strong> {{userFormModel.nom}}</div>
+            <div><strong>Prénom: </strong>{{userFormModel.prenom}}</div>
+           <div><strong>Email: </strong>{{userFormModel.email}}</div>
+             <div><strong>Téléphone: </strong>{{userFormModel.fone}}</div>
+             <div><strong>Formation choisie: </strong>{{userFormModel.formations}}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
